@@ -1,0 +1,50 @@
+<?php
+
+class Cashier
+{
+    const DISCOUNT_RATE = 0.1;
+    const MIN_PURCHASE_FOR_DISCOUNT = 100000;
+
+    public function calculateItemTotal($price, $quantity)
+    {
+        return $price * $quantity;
+    }
+
+    public function calculateTotal(array $items)
+    {
+        $total = 0;
+
+        foreach ($items as $item) {
+            $total += $this->calculateItemTotal(
+                $item['price'],
+                $item['quantity']
+            );
+        }
+
+        return $total;
+    }
+
+    public function applyDiscount($total)
+    {
+        if ($total > self::MIN_PURCHASE_FOR_DISCOUNT) {
+            return $total - ($total * self::DISCOUNT_RATE);
+        }
+
+        return $total;
+    }
+
+    public function processTransaction(array $items)
+    {
+        $total = $this->calculateTotal($items);
+        return $this->applyDiscount($total);
+    }
+}
+
+// data
+$items = [
+    ['price' => 50000, 'quantity' => 2],
+    ['price' => 20000, 'quantity' => 1]
+];
+
+$cashier = new Cashier();
+echo $cashier->processTransaction($items);
