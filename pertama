@@ -1,0 +1,30 @@
+<?php
+
+function hitung($a, $b, $c) {
+    $x = $a * $b;
+    if ($c == "yes") {
+        $x = $x - ($x * 0.1);
+    }
+    return $x;
+}
+
+function proses($data) {
+    $total = 0;
+    foreach ($data as $d) {
+        $total += $d['harga'] * $d['qty'];
+    }
+
+    if ($total > 100000) {
+        $total = $total - ($total * 0.1);
+    }
+
+    return $total;
+}
+
+// data
+$data = [
+    ['harga' => 50000, 'qty' => 2],
+    ['harga' => 20000, 'qty' => 1]
+];
+
+echo proses($data);
